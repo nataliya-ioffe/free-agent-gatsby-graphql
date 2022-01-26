@@ -1,1 +1,26 @@
-// This file is empty, but some people were reporting that it would not start unless they had an empty file. So here it is! You can delete the comment. Or replace it with your favourite shania twain lyrics.
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env' });
+
+export default {
+  siteMetadata: {
+    title: 'Slicks Slices',
+    siteUrl: 'https://gatsby.pizza',
+    desecription: 'The best pizza place in Hamilton!',
+  },
+  plugins: [
+    //  1 Styled components plugin
+    'gatsby-plugin-styled-components',
+    //  2 Sanity plugin
+    {
+      resolve: 'gatsby-source-sanity',
+      options: {
+        projectId: '9x47ybt0',
+        dataset: 'production',
+        // When in dev, change in sanity cms, as you save, gatsby is rebuilt, real time editing experience
+        watchMode: true,
+        token: 'process.env.SANITY_TOKEN',
+      },
+    },
+  ],
+};

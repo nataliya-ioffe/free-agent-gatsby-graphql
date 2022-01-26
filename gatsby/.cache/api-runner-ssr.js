@@ -1,4 +1,10 @@
 var plugins = [{
+      plugin: require('/Users/nataliyaioffe/Documents/code/Free-Agency/gatsby-slick-slices/gatsby/node_modules/gatsby-plugin-styled-components/gatsby-ssr'),
+      options: {"plugins":[]},
+    },{
+      plugin: require('/Users/nataliyaioffe/Documents/code/Free-Agency/gatsby-slick-slices/gatsby/node_modules/gatsby-source-sanity/gatsby-ssr'),
+      options: {"plugins":[],"projectId":"9x47ybt0","dataset":"production","watchMode":true,"token":"process.env.SANITY_TOKEN"},
+    },{
       plugin: require('/Users/nataliyaioffe/Documents/code/Free-Agency/gatsby-slick-slices/gatsby/gatsby-ssr'),
       options: {"plugins":[]},
     }]
