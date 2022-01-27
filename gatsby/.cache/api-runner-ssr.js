@@ -3,7 +3,7 @@ var plugins = [{
       options: {"plugins":[]},
     },{
       plugin: require('/Users/nataliyaioffe/Documents/code/Free-Agency/gatsby-slick-slices/gatsby/node_modules/gatsby-source-sanity/gatsby-ssr'),
-      options: {"plugins":[],"projectId":"9x47ybt0","dataset":"production","watchMode":true,"token":"process.env.SANITY_TOKEN"},
+      options: {"plugins":[],"projectId":"9x47ybt0","dataset":"production","watchMode":true,"token":"skGcgjDn5bq8P7f30lKGzncLBvwgmOHj7Gth9RBFIxMgqaw19TFxweSBJJkqsR2TH9KAZqQTfhVOTKDZFjBKNKHvknwLhiJsshwTLQvSXA0CrcYI7QwHM43EHmqKxIpOZF6VeHs26qX9clfsirLNAn2IHiElDsm0KSO6AuIWmDZiKTFWlhXq"},
     },{
       plugin: require('/Users/nataliyaioffe/Documents/code/Free-Agency/gatsby-slick-slices/gatsby/gatsby-ssr'),
       options: {"plugins":[]},

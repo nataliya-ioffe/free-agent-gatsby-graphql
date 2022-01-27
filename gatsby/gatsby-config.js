@@ -19,7 +19,7 @@ export default {
         dataset: 'production',
         // When in dev, change in sanity cms, as you save, gatsby is rebuilt, real time editing experience
         watchMode: true,
-        token: 'process.env.SANITY_TOKEN',
+        token: process.env.SANITY_TOKEN,
       },
     },
   ],
