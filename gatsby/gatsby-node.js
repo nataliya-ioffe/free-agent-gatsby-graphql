@@ -43,6 +43,8 @@ async function turnToppingsIntoPages({ graphql, actions }) {
   const toppingTemplate = path.resolve('./src/pages/pizzas.js');
 
   // Step 2: Query for all pizza toppings
+  // Syntax is a bit different here than other queries because we are using the Node API
+  // await graphql(`...`) vs graphql`...`
   const { data } = await graphql(`
     query {
       toppings: allSanityTopping {
@@ -86,7 +88,7 @@ async function fetchBeersAndTurnIntoNodes({
   beers.forEach((beer) => {
     // // Create metadata for each beer node
     const nodeMetadata = {
-      // createNodeId from gatsby -
+      // createNodeId from gatsby
       id: createNodeId(`beer-${beer.name}`),
       parent: null,
       children: [],
@@ -113,11 +115,7 @@ export async function createPages(params) {
   // Create the below pages dynamically.
   // Wait for all promises to be resolved before finishing this function
   await Promise.all([
-    // 1. Pizzas
     turnPizzasIntoPages(params),
-    // 2. Toppings
     turnToppingsIntoPages(params),
   ]);
-
-  // 3. Slicemasters
 }
