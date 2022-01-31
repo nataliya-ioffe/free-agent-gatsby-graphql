@@ -2,6 +2,7 @@
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 
+// PIZZA PAGES ********************************************
 async function turnPizzasIntoPages({ graphql, actions }) {
   // Step 1: Define a template for this Pizza page
   const pizzaTemplate = path.resolve('./src/templates/PizzaTemplate.js');
@@ -38,6 +39,7 @@ async function turnPizzasIntoPages({ graphql, actions }) {
   });
 }
 
+// TOPPING PAGES ********************************************
 async function turnToppingsIntoPages({ graphql, actions }) {
   // Step 1: Define a template for the topping page
   const toppingTemplate = path.resolve('./src/pages/pizzas.js');
@@ -73,6 +75,7 @@ async function turnToppingsIntoPages({ graphql, actions }) {
   });
 }
 
+// BEER NODES ********************************************
 // Source data from an external API (a sample beer API)
 // 1. Fetch a list of beers
 // 2. Create a node for each beer
@@ -106,8 +109,13 @@ async function fetchBeersAndTurnIntoNodes({
   });
 }
 
+// SLICEMASTER PAGES ********************************************
 async function turnSlicemastersIntoPages({ graphql, actions }) {
-  // Step 1: Query all slicemasters
+  const sliceMasterTemplate = path.resolve(
+    './src/templates/SliceMasterTemplate.js'
+  );
+
+  // Step 1: Query all SliceMasters
   const { data } = await graphql(`
     query {
       slicemasters: allSanityPerson {
@@ -123,19 +131,25 @@ async function turnSlicemastersIntoPages({ graphql, actions }) {
     }
   `);
 
-  // Step 2: TODO: turn each slicemaster into their own page
-  // Step 3: Figure out how many pages there are based on how many slicemasters there are, and how many per page!
-  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE);
+  // Step 2: Create a custom page for each SliceMaster
+  data.slicemasters.nodes.forEach((person) => {
+    actions.createPage({
+      path: `slicemaster/${person.slug.current}`,
+      component: sliceMasterTemplate,
+      context: {
+        slug: person.slug.current,
+      },
+    });
+  });
 
+  // Step 3: Create pages based on how many SliceMaster pages we have
+  const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE);
   const pageCount = Math.ceil(data.slicemasters.totalCount / pageSize);
 
-  // Loop from 1 to n (number of pages u have)
   Array.from({ length: pageCount }).forEach((_, i) => {
-    console.log(`creating page ${i}`);
     actions.createPage({
       path: `/slicemasters/${i + 1}`,
       component: path.resolve('./src/pages/slicemasters.js'),
-      // This data is passed to the template when we create it
       context: {
         // How many people should we skip?
         skip: i * pageSize,
