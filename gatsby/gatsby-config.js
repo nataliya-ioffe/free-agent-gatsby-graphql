@@ -4,14 +4,17 @@ dotenv.config({ path: '.env' });
 
 export default {
   siteMetadata: {
-    title: 'Slicks Slices',
+    title: `Slick's Slices`,
     siteUrl: 'https://gatsby.pizza',
     desecription: 'The best pizza place in Hamilton!',
+    twitter: '@slicksSlices',
   },
   plugins: [
-    //  1 Styled components plugin
+    //  1. Styled components plugin
     'gatsby-plugin-styled-components',
-    //  2 Sanity plugin
+    //  2. Helmet plugin
+    'gatsby-plugin-react-helmet',
+    //  3 Sanity plugin
     {
       resolve: 'gatsby-source-sanity',
       options: {
