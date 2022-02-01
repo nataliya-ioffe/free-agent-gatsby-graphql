@@ -1,8 +1,16 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import OrderContext from '../components/OrderContext';
 
 export default function usePizza({ pizzas, inputs }) {
   // 1. Create state to hold our order
-  const [order, setOrder] = useState([]);
+
+  // We got rid of this line b/c we moved useState up to the provider
+  // See gatsby-browser.js / gatsby-ssr.js / OrderContext.js
+  // const [order, setOrder] = useState([]);
+
+  // Now we access both our state and state updater function via context
+  const [order, setOrder] = useContext(OrderContext);
+
   // 2. Make function to add things to order
   function addToOrder(orderedPizza) {
     setOrder([...order, orderedPizza]);
