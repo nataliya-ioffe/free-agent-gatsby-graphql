@@ -1,7 +1,10 @@
 import { useContext, useState } from 'react';
 import OrderContext from '../components/OrderContext';
+import calculateOrderTotal from '../pages/calculateOrderTotal';
+import attachNamesAndPrices from './attachNamesAndPrices';
+import formatMoney from './formatMoney';
 
-export default function usePizza({ pizzas, inputs }) {
+export default function usePizza({ pizzas, values }) {
   // 1. Create state to hold our order
 
   // We got rid of this line b/c we moved useState up to the provider
@@ -11,10 +14,15 @@ export default function usePizza({ pizzas, inputs }) {
   // Now we access both our state and state updater function via context
   const [order, setOrder] = useContext(OrderContext);
 
+  const [error, setError] = useState();
+  const [loading, setloading] = useState(false);
+  const [message, setMessage] = useState('');
+
   // 2. Make function to add things to order
   function addToOrder(orderedPizza) {
     setOrder([...order, orderedPizza]);
   }
+
   // 3. make a function to remove things from order
   function removeFromOrder(index) {
     setOrder([
@@ -24,12 +32,54 @@ export default function usePizza({ pizzas, inputs }) {
       ...order.slice(index + 1),
     ]);
   }
-  //   TODO:
-  // 4. Send this data to a serverless function when they check out
+
+  async function submitOrder(e) {
+    e.preventDefault();
+    setloading(true);
+    setError(null);
+    setMessage(null);
+
+    // gather all the submitted data
+    const body = {
+      order: attachNamesAndPrices(order, pizzas),
+      total: formatMoney(calculateOrderTotal(order, pizzas)),
+      name: values.name,
+      email: values.email,
+    };
+
+    // 4. Send this data to a serverless function when they check out
+    const response = await fetch(
+      `${process.env.GATSBY_SERVERLESS_BASE}/placeOrder`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    const text = JSON.parse(await response.text());
+
+    // If it didn't work...
+    if (response.status >= 400 && response.status < 600) {
+      setloading(false);
+      // Sent from serverside
+      setError(text.message);
+    } else {
+      // it worked!
+      setloading(false);
+      setMessage('Success! Come on down for your pizza');
+    }
+  }
 
   return {
     order,
     addToOrder,
     removeFromOrder,
+    submitOrder,
+    error,
+    loading,
+    message,
   };
 }
