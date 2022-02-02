@@ -14,7 +14,7 @@ function generateOrderEmail({ order, total }) {
         )
         .join('')}
     </ul>
-    <p>Your total is <strong>$${total}</strong> due at pickup</p>
+    <p>Your total is <strong>${total}</strong> due at pickup</p>
     <style>
         ul {
           list-style: none;
@@ -33,15 +33,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// function wait(ms = 0) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(resolve, ms);
+//   });
+// }
+
 exports.handler = async (event, context) => {
+  // await wait(300);
   const body = JSON.parse(event.body);
-  console.log(body);
   // Validate the data coming in is correct
   const requiredFields = ['email', 'name', 'order'];
 
   for (const field of requiredFields) {
-    console.log(`Checking that ${field} is good`);
-
     if (!body[field]) {
       return {
         statusCode: 400,
@@ -50,6 +54,15 @@ exports.handler = async (event, context) => {
         }),
       };
     }
+  }
+  // Make sure they actually have items in their order
+  if (!body.order.length) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: `Bummer! You didn't order anything.`,
+      }),
+    };
   }
 
   // send the email
@@ -62,6 +75,6 @@ exports.handler = async (event, context) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(info),
+    body: JSON.stringify({ message: 'Success' }),
   };
 };
