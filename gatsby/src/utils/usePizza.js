@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import OrderContext from '../components/OrderContext';
-import calculateOrderTotal from '../pages/calculateOrderTotal';
+import calculateOrderTotal from './calculateOrderTotal';
 import attachNamesAndPrices from './attachNamesAndPrices';
 import formatMoney from './formatMoney';
 
@@ -15,7 +15,7 @@ export default function usePizza({ pizzas, values }) {
   const [order, setOrder] = useContext(OrderContext);
 
   const [error, setError] = useState();
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   // 2. Make function to add things to order
@@ -35,7 +35,7 @@ export default function usePizza({ pizzas, values }) {
 
   async function submitOrder(e) {
     e.preventDefault();
-    setloading(true);
+    setLoading(true);
     setError(null);
     setMessage(null);
 
@@ -48,27 +48,29 @@ export default function usePizza({ pizzas, values }) {
     };
 
     // 4. Send this data to a serverless function when they check out
-    const response = await fetch(
+    const res = await fetch(
       `${process.env.GATSBY_SERVERLESS_BASE}/placeOrder`,
       {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
       }
     );
 
-    const text = JSON.parse(await response.text());
+    console.log(res);
+
+    const text = JSON.parse(await res.text());
 
     // If it didn't work...
-    if (response.status >= 400 && response.status < 600) {
-      setloading(false);
+    if (res.status >= 400 && res.status < 600) {
+      setLoading(false);
       // Sent from serverside
       setError(text.message);
     } else {
       // it worked!
-      setloading(false);
+      setLoading(false);
       setMessage('Success! Come on down for your pizza');
     }
   }
