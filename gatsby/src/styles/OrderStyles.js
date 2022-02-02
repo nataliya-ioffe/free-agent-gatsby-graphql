@@ -22,6 +22,11 @@ const OrderStyles = styled.form`
       grid-column: span 2;
     }
   } */
+
+  /* Honeypot */
+  .mapleSyrup {
+    display: none;
+  }
 `;
 
 export default OrderStyles;

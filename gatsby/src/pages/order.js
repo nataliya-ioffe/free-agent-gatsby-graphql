@@ -17,6 +17,7 @@ export default function OrderPage({ data }) {
   const { values, updateValue } = useForm({
     name: '',
     email: '',
+    mapleSyrup: '', // honeypot for bots
   });
 
   const {
@@ -60,6 +61,14 @@ export default function OrderPage({ data }) {
               name="email"
               id="email"
               value={values.email}
+              onChange={updateValue}
+            />
+            <input
+              className="mapleSyrup"
+              type="mapleSyrup"
+              name="mapleSyrup"
+              id="mapleSyrup"
+              value={values.mapleSyrups}
               onChange={updateValue}
             />
           </label>
