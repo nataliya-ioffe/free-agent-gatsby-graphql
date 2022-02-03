@@ -1,5 +1,5 @@
-import { graphql } from 'gatsby';
 import React from 'react';
+import { graphql } from 'gatsby';
 import PizzaList from '../components/PizzaList';
 import SEO from '../components/SEO';
 import ToppingsFilter from '../components/ToppingsFilter';
