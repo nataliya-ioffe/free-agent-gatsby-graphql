@@ -60,7 +60,6 @@ async function turnToppingsIntoPages({ graphql, actions }) {
 
   // Step 3: Create a page for each pizza topping
   data.toppings.nodes.forEach((topping) => {
-    console.log('Creating a page for', topping.name);
     actions.createPage({
       // Choose the URL for the new page being created
       path: `topping/${topping.name}`,

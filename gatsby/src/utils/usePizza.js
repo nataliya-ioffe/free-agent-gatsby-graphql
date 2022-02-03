@@ -60,8 +60,6 @@ export default function usePizza({ pizzas, values }) {
       }
     );
 
-    console.log(res);
-
     const text = JSON.parse(await res.text());
 
     // If it didn't work...
