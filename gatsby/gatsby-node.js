@@ -110,11 +110,11 @@ async function fetchBeersAndTurnIntoNodes({
 
 // SLICEMASTER PAGES ********************************************
 async function turnSlicemastersIntoPages({ graphql, actions }) {
-  const sliceMasterTemplate = path.resolve(
-    './src/templates/SliceMasterTemplate.js'
+  const slicemasterTemplate = path.resolve(
+    './src/templates/SlicemasterTemplate.js'
   );
 
-  // Step 1: Query all SliceMasters
+  // Step 1: Query all Slicemasters
   const { data } = await graphql(`
     query {
       slicemasters: allSanityPerson {
@@ -130,18 +130,18 @@ async function turnSlicemastersIntoPages({ graphql, actions }) {
     }
   `);
 
-  // Step 2: Create a custom page for each SliceMaster
+  // Step 2: Create a custom page for each Slicemaster
   data.slicemasters.nodes.forEach((person) => {
     actions.createPage({
       path: `slicemaster/${person.slug.current}`,
-      component: sliceMasterTemplate,
+      component: slicemasterTemplate,
       context: {
         slug: person.slug.current,
       },
     });
   });
 
-  // Step 3: Create pages based on how many SliceMaster pages we have
+  // Step 3: Create pages based on how many Slicemaster pages we have
   const pageSize = parseInt(process.env.GATSBY_PAGE_SIZE);
   const pageCount = Math.ceil(data.slicemasters.totalCount / pageSize);
 
