@@ -13,6 +13,8 @@ import SEO from '../components/SEO';
 export default function SingleslicemasterPage({ data }) {
   const { slicemaster } = data;
 
+  console.log('test');
+
   return (
     <>
       <SEO title={slicemaster.name} image={slicemaster.image.asset.src} />
