@@ -1,5 +1,5 @@
-import { graphql, Link } from 'gatsby';
 import React from 'react';
+import { graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
 import styled from 'styled-components';
 import Pagination from '../components/Pagination';
@@ -40,10 +40,9 @@ const SlicemasterStyles = styled.div`
 
 export default function SlicemastersPage({ data, pageContext }) {
   const slicemasters = data.slicemasters.nodes;
-
   return (
     <>
-      <SEO title={`SliceMasters - Page ${pageContext.currentPage || 1}`} />
+      <SEO title={`Slicemasters - Page ${pageContext.currentPage || 1}`} />
       <Pagination
         pageSize={parseInt(process.env.GATSBY_PAGE_SIZE)}
         totalCount={data.slicemasters.totalCount}
@@ -53,7 +52,7 @@ export default function SlicemastersPage({ data, pageContext }) {
       />
       <SlicemasterGrid>
         {slicemasters.map((person) => (
-          <SlicemasterStyles>
+          <SlicemasterStyles key={person.id}>
             <Link to={`/slicemaster/${person.slug.current}`}>
               <h2>
                 <span className="mark">{person.name}</span>
@@ -70,12 +69,12 @@ export default function SlicemastersPage({ data, pageContext }) {
 
 // Page query! Must export it.
 export const query = graphql`
-  query SliceMastersQuery($skip: Int = 0, $pageSize: Int = 2) {
+  query($skip: Int = 0, $pageSize: Int = 2) {
     slicemasters: allSanityPerson(limit: $pageSize, skip: $skip) {
       totalCount
       nodes {
-        id
         name
+        id
         description
         slug {
           current
@@ -91,6 +90,3 @@ export const query = graphql`
     }
   }
 `;
-
-// Store # of people go on each poage
-// Based on that, calculate how many pages there are
